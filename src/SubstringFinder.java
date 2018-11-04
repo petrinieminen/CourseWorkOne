@@ -21,6 +21,7 @@ public class SubstringFinder {
                 while (isSubRunning) {
                     System.out.println("Please, enter a substring:");
                     lueSubTeksti = lukija.nextLine();
+
                     if (checkSubString(lueSubTeksti, lueTeksti)) {
                         findSubString(lueSubTeksti, lueTeksti);
                         isSubRunning = false;
@@ -71,7 +72,7 @@ public class SubstringFinder {
         Integer trueCount = 0;
         if (lueTeksti.length() >= lueSubTeksti.length()) {
             for (int i = 0; i <= lueSubTeksti.length() - 1; i++) {
-                if (lueTeksti.length() > i && lueTeksti.charAt(i) == lueSubTeksti.charAt(i)) {
+                if (lueTeksti.charAt(i) == lueSubTeksti.charAt(i)) {
                     trueCount++;
                 }
 
