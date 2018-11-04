@@ -73,7 +73,6 @@ public class SubstringFinder {
     }
 
     private static boolean checkForValidSubString(String lueSubTeksti, String lueTeksti) {
-
         Integer trueCount = 0;
         if (lueTeksti.length() >= lueSubTeksti.length()) {
             for (int i = 0; i <= lueSubTeksti.length() - 1; i++) {
