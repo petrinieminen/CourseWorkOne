@@ -11,28 +11,33 @@ public class SubstringFinder {
     private static void start() {
         Scanner lukija = new Scanner(System.in);
         Boolean isRunning = true;
-        Boolean isSubRunning = true;
+        Boolean nextOperation = false;
 
         while (isRunning) {
             System.out.println("Please, enter a string:");
             String lueTeksti = lukija.nextLine();
             if (checkString(lueTeksti)) {
-                String lueSubTeksti = "";
+                Boolean isSubRunning = true;
                 while (isSubRunning) {
                     System.out.println("Please, enter a substring:");
-                    lueSubTeksti = lukija.nextLine();
+                    String lueSubTeksti = lukija.nextLine();
 
                     if (checkSubString(lueSubTeksti, lueTeksti)) {
                         findSubString(lueSubTeksti, lueTeksti);
-                        isSubRunning = false;
+
+                        System.out.println("Continue (y/n)?");
+                        String jatkuukoVastaus = lukija.nextLine();
+
+                        if (jatkuukoVastaus.equals("y")) {
+                            nextOperation = true;
+                        } else {
+                            nextOperation = false;
+                        }
                     }
-
+                    isSubRunning = false;
                 }
-
             }
-
-
-            isRunning = false;
+            if (!nextOperation) isRunning = false;
         }
 
 
