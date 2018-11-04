@@ -13,15 +13,16 @@ public class SubstringFinder {
         Boolean isRunning = true;
         Boolean isSubRunning = true;
 
-        while(isRunning) {
+        while (isRunning) {
             System.out.println("Please, enter a string:");
             String lueTeksti = lukija.nextLine();
             if (checkString(lueTeksti)) {
                 String lueSubTeksti = "";
-                while(isSubRunning) {
+                while (isSubRunning) {
                     System.out.println("Please, enter a substring:");
                     lueSubTeksti = lukija.nextLine();
                     if (checkSubString(lueSubTeksti, lueTeksti)) {
+                        findSubString(lueSubTeksti, lueTeksti);
                         isSubRunning = false;
                     }
 
@@ -34,19 +35,61 @@ public class SubstringFinder {
         }
 
 
+    }
 
+    private static void findSubString(String lueSubTeksti, String lueTeksti) {
+        for (int i = 0; i < lueTeksti.length(); i++) {
+            String stringToCheck = "";
+
+            for (int k = i; k < lueTeksti.length(); k++) {
+                stringToCheck += lueTeksti.charAt(k);
+            }
+            if (checkForValidSubString(lueSubTeksti, stringToCheck))
+                printSubString(lueSubTeksti,
+                        lueTeksti,
+                        lueTeksti.length() - stringToCheck.length());
+
+        }
+
+    }
+
+    private static void printSubString(String lueSubTeksti, String lueTeksti, int startPos) {
+        String buildedString = "";
+        for (int i = 0; i < lueTeksti.length(); i++) {
+            if (i < startPos || i >= startPos + lueSubTeksti.length()) {
+                buildedString += "-";
+            } else {
+                buildedString += lueTeksti.charAt(i);
+            }
+        }
+
+        System.out.println(buildedString);
+    }
+
+    private static boolean checkForValidSubString(String lueSubTeksti, String lueTeksti) {
+
+        Integer trueCount = 0;
+        if (lueTeksti.length() >= lueSubTeksti.length()) {
+            for (int i = 0; i <= lueSubTeksti.length() - 1; i++) {
+                if (lueTeksti.length() > i && lueTeksti.charAt(i) == lueSubTeksti.charAt(i)) {
+                    trueCount++;
+                }
+
+            }
+        }
+        return trueCount >= lueSubTeksti.length();
     }
 
     private static boolean checkSubString(String input, String source) {
         Boolean status = true;
 
-        if(input.length() < 1) {
+        if (input.length() < 1) {
             status = false;
         }
-        if(input.length() > source.length()) {
+        if (input.length() > source.length()) {
             status = false;
         }
-        if(!input.isEmpty() && input.charAt(0) == '*' && input.charAt(input.length()-1) == '*')  {
+        if (!input.isEmpty() && input.charAt(0) == '*' && input.charAt(input.length() - 1) == '*') {
             status = false;
         }
 
