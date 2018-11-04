@@ -37,7 +37,10 @@ public class SubstringFinder {
                     isSubRunning = false;
                 }
             }
-            if (!nextOperation) isRunning = false;
+            if (!nextOperation) {
+                isRunning = false;
+                System.out.println("See you soon.");
+            }
         }
 
 
