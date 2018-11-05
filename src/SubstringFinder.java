@@ -53,10 +53,9 @@ public class SubstringFinder {
             for (int k = i; k < lueTeksti.length(); k++) {
                 stringToCheck += lueTeksti.charAt(k);
             }
-            if (checkForValidSubString(lueSubTeksti, stringToCheck))
-                printSubString(lueSubTeksti,
-                        lueTeksti,
-                        lueTeksti.length() - stringToCheck.length());
+            printSubString(lueSubTeksti,
+                    lueTeksti,
+                    lueTeksti.length() - stringToCheck.length());
 
         }
 
@@ -64,29 +63,21 @@ public class SubstringFinder {
 
     private static void printSubString(String lueSubTeksti, String lueTeksti, int startPos) {
         String buildedString = "";
+        String subStringToCompare = "";
+
         for (int i = 0; i < lueTeksti.length(); i++) {
             if (i < startPos || i >= startPos + lueSubTeksti.length()) {
                 buildedString += "-";
             } else {
                 buildedString += lueTeksti.charAt(i);
+                subStringToCompare += lueTeksti.charAt(i);
             }
         }
-
-        System.out.println(buildedString);
-    }
-
-    private static boolean checkForValidSubString(String lueSubTeksti, String lueTeksti) {
-        Integer trueCount = 0;
-        if (lueTeksti.length() >= lueSubTeksti.length()) {
-            for (int i = 0; i <= lueSubTeksti.length() - 1; i++) {
-                if (lueTeksti.charAt(i) == lueSubTeksti.charAt(i)) {
-                    trueCount++;
-                }
-
-            }
+        if (lueSubTeksti.equals(subStringToCompare)) {
+            System.out.println(buildedString);
         }
-        return trueCount >= lueSubTeksti.length();
     }
+
 
     private static boolean checkSubString(String input, String source) {
         Boolean status = true;
