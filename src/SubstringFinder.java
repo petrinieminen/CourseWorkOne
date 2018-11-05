@@ -12,29 +12,41 @@ public class SubstringFinder {
         Scanner lukija = new Scanner(System.in);
         Boolean isRunning = true;
         Boolean nextOperation = false;
+        Boolean validContinueAnswer = false;
 
         while (isRunning) {
             System.out.println("Please, enter a string:");
             String lueTeksti = lukija.nextLine();
             if (checkString(lueTeksti)) {
                 Boolean isSubRunning = true;
-                while (isSubRunning) {
+                while (isSubRunning && !validContinueAnswer) {
                     System.out.println("Please, enter a substring:");
                     String lueSubTeksti = lukija.nextLine();
 
                     if (checkSubString(lueSubTeksti, lueTeksti)) {
                         findSubString(lueSubTeksti, lueTeksti);
 
+                    } else
+                        continue;
+
+                    while (!validContinueAnswer) {
                         System.out.println("Continue (y/n)?");
                         String jatkuukoVastaus = lukija.nextLine();
+                        validContinueAnswer = checkIfValidContinueAnswer(jatkuukoVastaus);
+                        if (!validContinueAnswer) {
+                            System.out.println("Error!");
+                        }
 
                         if (jatkuukoVastaus.equals("y")) {
                             nextOperation = true;
-                        } else {
+                            isSubRunning = false;
+                        } else if (jatkuukoVastaus.equals("n")) {
                             nextOperation = false;
+                            isSubRunning = false;
                         }
                     }
-                    isSubRunning = false;
+                    validContinueAnswer = false;
+
                 }
             }
             if (!nextOperation) {
@@ -44,6 +56,13 @@ public class SubstringFinder {
         }
 
 
+    }
+
+    private static Boolean checkIfValidContinueAnswer(String jatkuukoVastaus) {
+        if (jatkuukoVastaus.equals("y") || jatkuukoVastaus.equals("n")) {
+            return true;
+        } else
+            return false;
     }
 
     private static void findSubString(String lueSubTeksti, String lueTeksti) {
@@ -57,7 +76,7 @@ public class SubstringFinder {
         }
 
         if (fromEnd || fromStart) {
-            printWildcardSubString(removeWildcard(lueSubTeksti), lueTeksti, fromStart, fromEnd);
+            printSubString(removeWildcard(lueSubTeksti), lueTeksti, 0, fromStart, fromEnd);
         } else {
 
             for (int i = 0; i < lueTeksti.length(); i++) {
@@ -68,7 +87,7 @@ public class SubstringFinder {
                 }
                 printSubString(lueSubTeksti,
                         lueTeksti,
-                        lueTeksti.length() - stringToCheck.length());
+                        lueTeksti.length() - stringToCheck.length(), fromStart, fromEnd);
 
             }
         }
@@ -92,22 +111,33 @@ public class SubstringFinder {
         }
     }
 
-    private static void printSubString(String lueSubTeksti, String lueTeksti, int startPos) {
+    private static void printSubString(String lueSubTeksti, String lueTeksti, int startPos, boolean fromStart,
+                                       boolean fromEnd) {
         String buildedString = "";
         String subStringToCompare = "";
 
 
         for (int i = 0; i < lueTeksti.length(); i++) {
-            if (i < startPos || i >= startPos + lueSubTeksti.length()) {
-                buildedString += "-";
+            if (fromEnd || fromStart) {
+                if ((fromStart && i >= lueSubTeksti.length()) || (fromEnd && i < lueTeksti.length() - lueSubTeksti.length())) {
+                    buildedString += "-";
+                } else {
+                    buildedString += lueTeksti.charAt(i);
+                    subStringToCompare += lueTeksti.charAt(i);
+                }
             } else {
-                buildedString += lueTeksti.charAt(i);
-                subStringToCompare += lueTeksti.charAt(i);
+                if (i < startPos || i >= startPos + lueSubTeksti.length()) {
+                    buildedString += "-";
+                } else {
+                    buildedString += lueTeksti.charAt(i);
+                    subStringToCompare += lueTeksti.charAt(i);
+                }
             }
         }
         if (lueSubTeksti.equals(subStringToCompare)) {
             System.out.println(buildedString);
         }
+
     }
 
     private static String removeWildcard(String lueSubTeksti) {
