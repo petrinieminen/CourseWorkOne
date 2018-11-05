@@ -13,6 +13,7 @@ public class SubstringFinder {
         Boolean isRunning = true;
         Boolean nextOperation = false;
         Boolean validContinueAnswer = false;
+        Boolean nextSubWhile = false;
 
         while (isRunning) {
             System.out.println("Please, enter a string:");
@@ -27,24 +28,27 @@ public class SubstringFinder {
                         findSubString(lueSubTeksti, lueTeksti);
 
                     } else
-                        continue;
+                        nextSubWhile = true;
 
-                    while (!validContinueAnswer) {
-                        System.out.println("Continue (y/n)?");
-                        String jatkuukoVastaus = lukija.nextLine();
-                        validContinueAnswer = checkIfValidContinueAnswer(jatkuukoVastaus);
-                        if (!validContinueAnswer) {
-                            System.out.println("Error!");
-                        }
+                    if (!nextSubWhile) {
+                        while (!validContinueAnswer) {
+                            System.out.println("Continue (y/n)?");
+                            String jatkuukoVastaus = lukija.nextLine();
+                            validContinueAnswer = checkIfValidContinueAnswer(jatkuukoVastaus);
+                            if (!validContinueAnswer) {
+                                System.out.println("Error!");
+                            }
 
-                        if (jatkuukoVastaus.equals("y")) {
-                            nextOperation = true;
-                            isSubRunning = false;
-                        } else if (jatkuukoVastaus.equals("n")) {
-                            nextOperation = false;
-                            isSubRunning = false;
+                            if (jatkuukoVastaus.equals("y")) {
+                                nextOperation = true;
+                                isSubRunning = false;
+                            } else if (jatkuukoVastaus.equals("n")) {
+                                nextOperation = false;
+                                isSubRunning = false;
+                            }
                         }
                     }
+                    nextSubWhile = false;
                     validContinueAnswer = false;
 
                 }
@@ -94,22 +98,6 @@ public class SubstringFinder {
 
     }
 
-    private static void printWildcardSubString(String lueSubTeksti, String lueTeksti, Boolean fromStart, Boolean fromEnd) {
-        String buildedString = "";
-        String subStringToCompare = "";
-
-        for (int i = 0; i < lueTeksti.length(); i++) {
-            if ((fromStart && i >= lueSubTeksti.length()) || (fromEnd && i < lueTeksti.length() - lueSubTeksti.length())) {
-                buildedString += "-";
-            } else {
-                buildedString += lueTeksti.charAt(i);
-                subStringToCompare += lueTeksti.charAt(i);
-            }
-        }
-        if (lueSubTeksti.equals(subStringToCompare)) {
-            System.out.println(buildedString);
-        }
-    }
 
     private static void printSubString(String lueSubTeksti, String lueTeksti, int startPos, boolean fromStart,
                                        boolean fromEnd) {
