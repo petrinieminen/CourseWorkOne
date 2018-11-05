@@ -47,23 +47,55 @@ public class SubstringFinder {
     }
 
     private static void findSubString(String lueSubTeksti, String lueTeksti) {
-        for (int i = 0; i < lueTeksti.length(); i++) {
-            String stringToCheck = "";
+        Boolean fromStart = false;
+        Boolean fromEnd = false;
 
-            for (int k = i; k < lueTeksti.length(); k++) {
-                stringToCheck += lueTeksti.charAt(k);
-            }
-            printSubString(lueSubTeksti,
-                    lueTeksti,
-                    lueTeksti.length() - stringToCheck.length());
-
+        if (lueSubTeksti.charAt(0) == '*') {
+            fromEnd = true;
+        } else if (lueSubTeksti.charAt(lueSubTeksti.length() - 1) == '*') {
+            fromStart = true;
         }
 
+        if (fromEnd || fromStart) {
+            printWildcardSubString(removeWildcard(lueSubTeksti), lueTeksti, fromStart, fromEnd);
+        } else {
+
+            for (int i = 0; i < lueTeksti.length(); i++) {
+                String stringToCheck = "";
+
+                for (int k = i; k < lueTeksti.length(); k++) {
+                    stringToCheck += lueTeksti.charAt(k);
+                }
+                printSubString(lueSubTeksti,
+                        lueTeksti,
+                        lueTeksti.length() - stringToCheck.length());
+
+            }
+        }
+
+    }
+
+    private static void printWildcardSubString(String lueSubTeksti, String lueTeksti, Boolean fromStart, Boolean fromEnd) {
+        String buildedString = "";
+        String subStringToCompare = "";
+
+        for (int i = 0; i < lueTeksti.length(); i++) {
+            if ((fromStart && i >= lueSubTeksti.length()) || (fromEnd && i < lueTeksti.length() - lueSubTeksti.length())) {
+                buildedString += "-";
+            } else {
+                buildedString += lueTeksti.charAt(i);
+                subStringToCompare += lueTeksti.charAt(i);
+            }
+        }
+        if (lueSubTeksti.equals(subStringToCompare)) {
+            System.out.println(buildedString);
+        }
     }
 
     private static void printSubString(String lueSubTeksti, String lueTeksti, int startPos) {
         String buildedString = "";
         String subStringToCompare = "";
+
 
         for (int i = 0; i < lueTeksti.length(); i++) {
             if (i < startPos || i >= startPos + lueSubTeksti.length()) {
@@ -76,6 +108,16 @@ public class SubstringFinder {
         if (lueSubTeksti.equals(subStringToCompare)) {
             System.out.println(buildedString);
         }
+    }
+
+    private static String removeWildcard(String lueSubTeksti) {
+        String wildcardlessSubString = "";
+        for (int i = 0; i < lueSubTeksti.length(); i++) {
+            if (lueSubTeksti.charAt(i) != '*') {
+                wildcardlessSubString += lueSubTeksti.charAt(i);
+            }
+        }
+        return wildcardlessSubString;
     }
 
 
