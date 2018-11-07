@@ -1,7 +1,11 @@
 import java.util.Scanner;
 
 public class SubstringFinder {
-
+    /* Vakiot */
+    public static final String Virhe  ="Error!";
+    public static final String Yes = "y";
+    public static final String No = "n";
+    
     public static void main(String[] args) {
         System.out.println("Hello! I find substrings.");
         start();
@@ -36,13 +40,13 @@ public class SubstringFinder {
                             String jatkuukoVastaus = lukija.nextLine();
                             validContinueAnswer = checkIfValidContinueAnswer(jatkuukoVastaus);
                             if (!validContinueAnswer) {
-                                System.out.println("Error!");
+                                System.out.println(Virhe);
                             }
 
-                            if (jatkuukoVastaus.equals("y")) {
+                            if (jatkuukoVastaus.equals(Yes)) {
                                 nextOperation = true;
                                 isSubRunning = false;
-                            } else if (jatkuukoVastaus.equals("n")) {
+                            } else if (jatkuukoVastaus.equals(No)) {
                                 nextOperation = false;
                                 isSubRunning = false;
                             }
@@ -63,7 +67,7 @@ public class SubstringFinder {
     }
 
     private static Boolean checkIfValidContinueAnswer(String jatkuukoVastaus) {
-        if (jatkuukoVastaus.equals("y") || jatkuukoVastaus.equals("n")) {
+        if (jatkuukoVastaus.equals(Yes) || jatkuukoVastaus.equals(No)) {
             return true;
         } else
             return false;
@@ -153,7 +157,7 @@ public class SubstringFinder {
         }
 
         if (!status) {
-            System.out.println("Error!");
+            System.out.println(Virhe);
         }
 
         return status;
